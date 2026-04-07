@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Photo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Upload Photo</h1>
+    <form id="uploadForm" onsubmit="uploadFile(event)" enctype="multipart/form-data">
+        <input type="file" id="upload" name="file" accept="image/*" required>
+        <button type="submit">Upload Photo</button>
+    </form>
+    <div class="result">
+        <h2>Processed Image:</h2>
+        <img id="processedImage" src="" alt="Processed Image" style="display:none;">
+    </div>
+   </div>
+    <script>
+        
+// Upload an image file
+function uploadFile(event) {
+    event.preventDefault();
+
+    const fileInput = document.getElementById('upload');
+    const formData = new FormData();
+    formData.append('file', fileInput.files[0]);
+
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Display the result image
+        const processedImage = document.getElementById('processedImage');
+        processedImage.src = `/output/${data.result_image}`;
+        processedImage.style.display = 'block';
+
+        // if(data.alaram_triggered){
+        //      alert("Alaram triggered! Detected: " +data.detected_objects.join(','));
+        // }else{
+        //      alert("No critical objects detected.");
+        // }
+    })
+    .catch(error => console.error('Error uploading file:', error));
+}
+    </script>
+</body>
+</html>

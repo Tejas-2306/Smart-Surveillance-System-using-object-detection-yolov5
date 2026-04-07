@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Capture</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Webcam Capture <span>Live Object Detection</span></h1>
+    <div class="result">
+    <!-- Video stream from Flask -->
+    <img id="liveStream" src="/webcam_stream" alt="Webcam Stream" width="640" height="480">
+    </div>
+    <!-- Buttons for image and video capture -->
+    <button id="captureImage">Capture Image</button>
+    <button id="captureVideo">Capture Video</button>
+    <button id="stopVideo" style="display: none;">Stop Video</button>
+    <button id="uploadCapture" style="display: none;">Upload</button>
+    </div>
+    <!-- Display captured image or video -->
+    <canvas id="canvas" width="640" height="480" style="display: none;"></canvas>
+    <video id="capturedVideo" width="640" height="480" controls style="display: none;"></video>
+    <div id="resultMessage"></div>
+
+    <script>
+        const liveStream = document.getElementById('liveStream');
+        const canvas = document.getElementById('canvas');
+        const captureImageButton = document.getElementById('captureImage');
+        const captureVideoButton = document.getElementById('captureVideo');
+        const stopVideoButton = document.getElementById('stopVideo');
+        const uploadButton = document.getElementById('uploadCapture');
+        const resultMessage = document.getElementById('resultMessage');
+        const capturedVideo = document.getElementById('capturedVideo');
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        // Capture Image from Live Stream
+        captureImageButton.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            capturedVideo.style.display = 'none';
+            canvas.width = liveStream.width;
+            canvas.height = liveStream.height;
+            context.drawImage(liveStream, 0, 0, canvas.width, canvas.height);
+            uploadButton.style.display = 'block';
+        });
+
+        // Capture Video from Live Stream
+        let liveStreamSrc = liveStream.src;  // Store the live stream source
+
+        captureVideoButton.addEventListener('click', () => {
+            recordedChunks = [];
+            stopVideoButton.style.display = 'block';
+            captureVideoButton.style.display = 'none';
+
+            // Stop the live stream before starting video capture
+            liveStream.src = "";  // Clear the live stream source to stop it
+
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.ondataavailable = event => recordedChunks.push(event.data);
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                        capturedVideo.src = URL.createObjectURL(blob);
+                        capturedVideo.style.display = 'block';
+                        uploadButton.style.display = 'block';
+                        
+                        // Resume live stream after video recording
+                        liveStream.src = liveStreamSrc;
+                    };
+                    mediaRecorder.start();
+                })
+                .catch(error => console.error('Error accessing webcam for video:', error));
+        });
+
+        // Stop Video Recording
+        stopVideoButton.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+            }
+            stopVideoButton.style.display = 'none';
+            captureVideoButton.style.display = 'block';
+        });
+
+        // Upload Captured Image or Video
+        uploadButton.addEventListener('click', () => {
+            if (canvas.style.display === 'block') {
+                // Upload captured image
+                canvas.toBlob(blob => {
+                    const formData = new FormData();
+                    formData.append('file', blob, 'webcam_image.png');
+
+                    fetch('/upload', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        resultMessage.textContent = data.message;
+                        uploadButton.style.display = 'none';
+                    })
+                    .catch(error => console.error('Error uploading image:', error));
+                });
+            } else if (capturedVideo.style.display === 'block') {
+                // Upload captured video
+                const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const formData = new FormData();
+                formData.append('file', blob, 'webcam_video.webm');
+
+                fetch('/upload_video', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    resultMessage.textContent = data.message;
+                    uploadButton.style.display = 'none';
+                })
+                .catch(error => console.error('Error uploading video:', error));
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+/* General body styling */
+body {
+    margin: 0;
+    padding: 0;
+    /* background-color: orangered; Matches index.html background */
+    background: url('../static/images/realistic-glassmorphism-background_52683-87286.avif') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Main container */
+.container {
+    /* background: white; White box for the content */
+    background: url('../static/images/abstract-blur-pink-blue-gradient-background-design_53876-169254.avif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 700px;
+    min-height: 200px;
+    padding: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    margin: 20px auto;
+}
+
+/* Heading styles */
+/* Heading styles for <h1> */
+h2, h1 {
+    font-size: 36px; /* Bigger font size for main heading */
+    font-weight: bold; /* Make the font bold */
+    color: #004d40; /* Dark green color */
+    text-transform: uppercase; /* Make the text uppercase */
+    letter-spacing: 2px; /* Add space between letters */
+    text-align: center; /* Center-align the text */
+    margin-bottom: 30px; /* Add space below */
+    font-family: 'Arial', sans-serif; /* Use Arial font */
+    background: linear-gradient(to right, #004d40, #00796b); /* Gradient background */
+    color: transparent; /* Make the text color transparent to show the gradient */
+}
+
+h2, h1{
+    margin-top: 20px; /* Add some space from the top */
+    color: #333; /* Set a simple dark color */
+    font-size: 24px; /* Set font size */
+    font-weight: bold; /* Make the text bold */
+    text-decoration: none; /* Remove any text decorations */
+    background: none; /* Remove any background */
+    border: none; /* Ensure no border appears */
+    box-shadow: none; /* Remove any box shadow */
+    padding: 0; /* Remove any padding */
+    display: inline-block; /* Keeps the h2 inline without extra box */
+}
+
+/* Buttons styling */
+button {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    padding: 15px;
+    margin: 10px auto; /* Centers the button */
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(31, 4, 53);
+    background-color: #2bbdd6;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #a11065;
+    transform: scale(1.02);
+}
+
+/* Image and video result display */
+.result {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.result img, .result video {
+    max-width: 100%; /* Makes it responsive */
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 12px;
+    }
+}
+
+.icon-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.icon-item {
+    text-align: center;
+    color: #00796b;
+    font-size: 80px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.icon-item p {
+    margin-top: 10px;
+    font-size: 30px;
+    color:#00796b;
+}
+
+.icon-item:hover {
+    transform: scale(1.1);
+    color: #ad485e;
+}
+
+/* Header Styling */
+.header {
+    position: absolute; /* Allow absolute positioning */
+    top: 20px; /* Distance from the top of the page */
+    left: 50%; /* Move the element to the horizontal center */
+    transform: translateX(-50%); /* Shift back by 50% of its own width */
+    text-align: center; /* Ensure text is centered */
+    width: 100%; /* Occupy full width to align text properly */
+    margin: 0; /* Remove unwanted margins */
+}
+
+.header h1 {
+    font-family: 'Georgia', serif; /* Elegant serif font */
+    font-size: 5rem; /* Slightly larger font size */
+    font-weight: bold; /* Bold text */
+    color: #004d99; /* Deep blue color */
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 2px; /* Increase letter spacing */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Light shadow for a 3D effect */
+    border-bottom: 3px solid #007acc; /* Thin line below text */
+    display: inline-block; /* Makes border fit text size */
+    padding-bottom: 5px; /* Space between text and border */
+    margin: 0; /* No margins */
+    text-align: center;
+}

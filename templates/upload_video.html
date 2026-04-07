@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload and Process Video</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+    <h1>Upload Video</h1>
+    <form action="/upload_video" id="uploadForm" enctype="multipart/form-data" method="POST" >
+        <input type="file" name="file" accept="video/*" required>
+        <button type="submit">Upload Video</button>
+    </form>
+    
+    <h2>Processed Video:</h2>
+    <img id="videoStream" src="" alt="Processing video..." style="display:none;">
+   
+   
+    <script>
+       const form = docoument.querySelector('form');
+       const processingImg = document.getElementById('processing');
+       form.addEventListener('submt', () => {
+        processingImg.style.isplay = 'block';
+       });
+    </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+            <h1>SMART SURVEILLANCE</h1>
+    </div>
+    <div class="container">
+        <div class="icon-buttons">
+            <div class="icon-item">
+                <i class="icon fas fa-camera" onclick="window.location.href='/webcam'"></i>
+                <p>webcam</p>
+            </div>
+            <div class="icon-item">
+                <i class="icon fas fa-image" onclick="window.location.href='/upload-photo'"></i>
+                <p>Upload Image</p>
+            </div>
+            <div class="icon-item">
+                <i class="icon fas fa-camera" onclick="window.location.href='/upload-video'"></i>
+                <p>Upload Video</p>
+            </div>
+    </div>
+</body>
+</html>
